@@ -4,7 +4,6 @@ import cn.hutool.core.map.MapUtil;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -82,7 +81,7 @@ public class OkHttpUtils {
         Request.Builder builder = getBuilderWithHeaders(headers);
         Request request = builder.url(sb.toString()).build();
 
-        log.info("do get request and url[{}]", sb.toString());
+        log.info("do get request and url[{}]", sb);
         return execute(request);
     }
 
@@ -175,18 +174,12 @@ public class OkHttpUtils {
     }
 
     private String execute(Request request) {
-        Response response = null;
-        try {
-            response = okHttpClient.newCall(request).execute();
+        try (Response response = okHttpClient.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 return response.body().string();
             }
         } catch (Exception e) {
             log.error(Throwables.getStackTraceAsString(e));
-        } finally {
-            if (response != null) {
-                response.close();
-            }
         }
         return "";
     }

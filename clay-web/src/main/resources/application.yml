@@ -58,6 +58,8 @@ spring:
 clay:
   topic:
     name: clay
+  # GrayLog ip 地址 TODO
+  grayLogIp:192.168.21.6
 
 
 # 监控配置  TODO

@@ -1,7 +1,8 @@
-package xyz.sgmi.clay.service.deduplication;
+package xyz.sgmi.clay.service.deduplication.service;
 
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
+import xyz.sgmi.clay.enums.DeduplicationType;
 import xyz.sgmi.clay.pojo.TaskInfo;
 
 /**
@@ -12,6 +13,10 @@ import xyz.sgmi.clay.pojo.TaskInfo;
  */
 @Service
 public class FrequencyDeduplicationService extends AbstractDeduplicationService {
+
+    public FrequencyDeduplicationService() {
+        deduplicationType = DeduplicationType.FREQUENCY.getCode();
+    }
 
     private static final String PREFIX = "FRE";
 

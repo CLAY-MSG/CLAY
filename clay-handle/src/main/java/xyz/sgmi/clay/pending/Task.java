@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import xyz.sgmi.clay.handle.HandlerHolder;
 import xyz.sgmi.clay.pojo.TaskInfo;
-import xyz.sgmi.clay.service.deduplication.DeduplicationRuleService;
+import xyz.sgmi.clay.service.deduplication.service.DeduplicationRuleService;
 import xyz.sgmi.clay.service.discard.DiscardMessageService;
 
 /**

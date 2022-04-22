@@ -11,7 +11,7 @@ import xyz.sgmi.clay.pipeline.ProcessContext;
 import xyz.sgmi.clay.pipeline.ProcessController;
 import xyz.sgmi.clay.vo.BasicResultVO;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * 发送接口
@@ -29,7 +29,7 @@ public class SendServiceImpl implements SendService {
 
         SendTaskModel sendTaskModel = SendTaskModel.builder()
                 .messageTemplateId(sendRequest.getMessageTemplateId())
-                .messageParamList(Arrays.asList(sendRequest.getMessageParam()))
+                .messageParamList(Collections.singletonList(sendRequest.getMessageParam()))
                 .build();
 
         ProcessContext context = ProcessContext.builder()
@@ -40,7 +40,7 @@ public class SendServiceImpl implements SendService {
 
         ProcessContext process = processController.process(context);
 
-        return new SendResponse(process.getResponse().getCode(), process.getResponse().getMsg());
+        return new SendResponse(process.getResponse().getStatus(), process.getResponse().getMsg());
     }
 
     @Override
@@ -59,7 +59,7 @@ public class SendServiceImpl implements SendService {
 
         ProcessContext process = processController.process(context);
 
-        return new SendResponse(process.getResponse().getCode(), process.getResponse().getMsg());
+        return new SendResponse(process.getResponse().getStatus(), process.getResponse().getMsg());
     }
 
 }

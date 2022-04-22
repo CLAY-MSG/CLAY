@@ -2,3 +2,10 @@
 *.class
 *.iml
 *.log
+/*/target/
+/clay-common/target/
+/clay-handle/target/
+/clay-service-api/target/
+/clay-service-api-impl/target/
+/clay-support/target/
+/clay-web/target/

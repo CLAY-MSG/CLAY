@@ -42,7 +42,6 @@ public class AfterParamCheckAction implements BusinessProcess {
 
         if (CollUtil.isEmpty(taskInfo)) {
             context.setNeedBreak(true).setResponse(BasicResultVO.fail(RespStatusEnum.CLIENT_BAD_PARAMETERS));
-            return;
         }
     }
 

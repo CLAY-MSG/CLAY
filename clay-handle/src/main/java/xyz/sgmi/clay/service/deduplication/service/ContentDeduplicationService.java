@@ -1,8 +1,9 @@
-package xyz.sgmi.clay.service.deduplication;
+package xyz.sgmi.clay.service.deduplication.service;
 
 import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Service;
+import xyz.sgmi.clay.enums.DeduplicationType;
 import xyz.sgmi.clay.pojo.TaskInfo;
 
 /**
@@ -13,6 +14,10 @@ import xyz.sgmi.clay.pojo.TaskInfo;
  */
 @Service
 public class ContentDeduplicationService extends AbstractDeduplicationService {
+
+    public ContentDeduplicationService() {
+        deduplicationType = DeduplicationType.CONTENT.getCode();
+    }
 
     /**
      * 内容去重 构建key

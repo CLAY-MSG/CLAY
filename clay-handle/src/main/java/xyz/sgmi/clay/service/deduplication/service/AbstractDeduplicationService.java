@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.service.deduplication;
+package xyz.sgmi.clay.service.deduplication.service;
 
 import cn.hutool.core.collection.CollUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -7,9 +7,12 @@ import xyz.sgmi.clay.constant.ClayConstant;
 import xyz.sgmi.clay.domain.AnchorInfo;
 import xyz.sgmi.clay.domain.DeduplicationParam;
 import xyz.sgmi.clay.pojo.TaskInfo;
+import xyz.sgmi.clay.service.deduplication.DeduplicationHolder;
+import xyz.sgmi.clay.service.deduplication.DeduplicationService;
 import xyz.sgmi.clay.utils.LogUtils;
 import xyz.sgmi.clay.utils.RedisUtils;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 /**
@@ -19,11 +22,21 @@ import java.util.*;
  * 去重服务
  */
 @Slf4j
-public abstract class AbstractDeduplicationService {
+public abstract class AbstractDeduplicationService implements DeduplicationService {
+    protected Integer deduplicationType;
+
+    @Autowired
+    private DeduplicationHolder deduplicationHolder;
+
+    @PostConstruct
+    private void init() {
+        deduplicationHolder.putService(deduplicationType, this);
+    }
 
     @Autowired
     private RedisUtils redisUtils;
 
+    @Override
     public void deduplication(DeduplicationParam param) {
         TaskInfo taskInfo = param.getTaskInfo();
         Set<String> filterReceiver = new HashSet<>(taskInfo.getReceiver().size());
@@ -38,7 +51,7 @@ public abstract class AbstractDeduplicationService {
             String value = inRedisValue.get(key);
 
             // 符合条件的用户
-            if (value != null && Integer.valueOf(value) >= param.getCountNum()) {
+            if (value != null && Integer.parseInt(value) >= param.getCountNum()) {
                 filterReceiver.add(receiver);
             } else {
                 readyPutRedisReceiver.add(receiver);

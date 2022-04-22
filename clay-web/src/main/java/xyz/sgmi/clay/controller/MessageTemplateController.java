@@ -1,75 +1,47 @@
 package xyz.sgmi.clay.controller;
 
-import cn.hutool.core.date.DateUtil;
-import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.sgmi.clay.dao.MessageTemplateDao;
 import xyz.sgmi.clay.domain.MessageTemplate;
+import xyz.sgmi.clay.vo.BasicResultVO;
+import xyz.sgmi.clay.vo.MessageTemplateVo;
 
 /**
  * 插入模板测试类
  * @author MSG
  */
 @RestController
-@RequestMapping("/Message")
+@RequestMapping("/messageTemplate")
 @Api("发送消息")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class MessageTemplateController {
 
     @Autowired
     private MessageTemplateDao messageTemplateDao;
 
     /**
-     * test insert
+     * 如果Id存在，则修改
+     * 如果Id不存在，则保存
      */
-    @GetMapping("/insert")
+    @PostMapping("/save")
     @ApiOperation("/插入数据")
-    public String insert() {
-
-        MessageTemplate messageTemplate = MessageTemplate.builder()
-                .name("test邮件")
-                .auditStatus(10)
-                .flowId("yyyy")
-                .msgStatus(10)
-                .idType(50)
-                .sendChannel(40)
-                .templateType(20)
-                .msgType(10)
-                .expectPushTime("0")
-                .msgContent("{\"content\":\"{$contentValue}\",\"title\":\"{$title}\"}")
-                .sendAccount(66)
-                .creator("yyyyc")
-                .updator("yyyyu")
-                .team("yyyt")
-                .proposer("yyyy22")
-                .auditor("yyyyyyz")
-                .isDeleted(0)
-                .created(Math.toIntExact(DateUtil.currentSeconds()))
-                .updated(Math.toIntExact(DateUtil.currentSeconds()))
-                .deduplicationTime(1)
-                .isNightShield(0)
-                .build();
-
+    public BasicResultVO saveOrUpdate(@RequestBody MessageTemplate messageTemplate) {
         MessageTemplate info = messageTemplateDao.save(messageTemplate);
-
-        return JSON.toJSONString(info);
-
+        return BasicResultVO.success(info);
     }
 
     /**
-     * test query
+     * 列表数据
      */
     @GetMapping("/query")
     @ApiOperation("/查找数据")
-    public String query() {
+    public BasicResultVO queryList() {
         Iterable<MessageTemplate> all = messageTemplateDao.findAll();
-        for (MessageTemplate messageTemplate : all) {
-            return JSON.toJSONString(messageTemplate);
-        }
-        return null;
+        long count = messageTemplateDao.count();
+        MessageTemplateVo messageTemplateVo = MessageTemplateVo.builder().count(count).rows(all).build();
+        return BasicResultVO.success(messageTemplateVo);
     }
 }
