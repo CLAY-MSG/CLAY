@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import xyz.sgmi.clay.domain.MessageTemplate;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 消息模板的Vo
@@ -19,9 +21,9 @@ import xyz.sgmi.clay.domain.MessageTemplate;
 public class MessageTemplateVo {
 
     /**
-     * 消息模板李彪
+     * 返回List列表
      */
-    private Iterable<MessageTemplate> rows;
+    private List<Map<String,Object>> rows;
 
     /**
      * 总条数

@@ -15,6 +15,11 @@ public class ClayConstant {
     public final static Integer FALSE = 0;
 
     /**
+     * cron时间格式
+     */
+    public final static String CRON_FORMAT = "ss mm HH dd MM ? yyyy-yyyy";
+
+    /**
      * 时间格式
      */
     public final static String YYYY_MM_DD = "yyyyMMdd";

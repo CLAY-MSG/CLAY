@@ -4,11 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
+
 /**
  * 消息模板DO
  * @author MSG
@@ -18,7 +21,8 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class MessageTemplate {
+@Accessors(chain = true)
+public class MessageTemplate implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -43,6 +47,16 @@ public class MessageTemplate {
      * 消息状态
      */
     private Integer msgStatus;
+
+    /**
+     * 定时任务Id(由xxl-job返回)
+     */
+    private Integer cronTaskId;
+
+    /**
+     * 定时发送的人群的文件路径
+     */
+    private String cronCrowdPath;
 
     /**
      * 发送的Id类型

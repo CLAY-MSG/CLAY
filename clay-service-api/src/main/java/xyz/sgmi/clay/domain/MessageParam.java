@@ -1,5 +1,6 @@
 package xyz.sgmi.clay.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -13,6 +14,7 @@ import java.util.Map;
  * single
  */
 @Data
+@Builder
 @Accessors(chain = true)
 public class MessageParam {
 

@@ -13,8 +13,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public enum TemplateType {
 
-    OPERATION(10, "运营类的模板"),
-    TECHNOLOGY(20, "技术类的模板"),
+    CLOCKING(10, "定时类的模板(后台定时调用)"),
+    REALTIME(20, "实时类的模板(接口实时调用)"),
     ;
 
     private Integer code;

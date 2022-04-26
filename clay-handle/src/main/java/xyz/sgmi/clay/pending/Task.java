@@ -40,6 +40,7 @@ public class Task implements Runnable {
 
         // 0. 丢弃消息
         if (discardMessageService.isDiscard(taskInfo)) {
+
             return;
         }
 

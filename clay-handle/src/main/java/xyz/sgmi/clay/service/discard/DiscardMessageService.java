@@ -21,7 +21,7 @@ import xyz.sgmi.clay.utils.LogUtils;
 public class DiscardMessageService {
     private static final String DISCARD_MESSAGE_KEY = "discard";
 
-    @ApolloConfig("boss.austin")
+    @ApolloConfig("boss.clay")
     private Config config;
 
     /**
