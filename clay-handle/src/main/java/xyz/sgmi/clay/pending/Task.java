@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import xyz.sgmi.clay.handle.HandlerHolder;
 import xyz.sgmi.clay.pojo.TaskInfo;
 import xyz.sgmi.clay.service.deduplication.service.DeduplicationRuleService;
@@ -22,6 +25,8 @@ import xyz.sgmi.clay.service.discard.DiscardMessageService;
 @Data
 @Accessors(chain = true)
 @Slf4j
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Task implements Runnable {
 
     @Autowired

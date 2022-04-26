@@ -67,6 +67,12 @@ public class MessageTemplateServiceImpl implements MessageTemplateService {
     public void deleteByIds(List<Long> ids) {
         Iterable<MessageTemplate> messageTemplates = messageTemplateDao.findAllById(ids);
         messageTemplates.forEach(messageTemplate -> messageTemplate.setIsDeleted(ClayConstant.TRUE));
+        for (MessageTemplate messageTemplate : messageTemplates) {
+            if (messageTemplate.getCronTaskId() > 0) {
+                cronTaskService.deleteCronTask(messageTemplate.getCronTaskId());
+            }
+        }
+
         messageTemplateDao.saveAll(messageTemplates);
     }
 
@@ -126,8 +132,7 @@ public class MessageTemplateServiceImpl implements MessageTemplateService {
     private void initStatus(MessageTemplate messageTemplate) {
         messageTemplate.setFlowId(StrUtil.EMPTY)
                 .setMsgStatus(MessageStatus.INIT.getCode()).setAuditStatus(AuditStatus.WAIT_AUDIT.getCode())
-                .setCreator("Java3y").setUpdator("Java3y").setTeam("公众号Java3y").setAuditor("3y")
-                .setDeduplicationTime(ClayConstant.FALSE).setIsNightShield(ClayConstant.FALSE)
+                .setCreator("sgmi").setUpdator("sgmi").setTeam("公众号sgmi").setAuditor("3y")
                 .setCreated(Math.toIntExact(DateUtil.currentSeconds()))
                 .setIsDeleted(ClayConstant.FALSE);
     }

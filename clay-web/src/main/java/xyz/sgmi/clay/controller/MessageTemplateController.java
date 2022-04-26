@@ -1,10 +1,15 @@
 package xyz.sgmi.clay.controller;
 
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.google.common.base.Throwables;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.sgmi.clay.domain.MessageParam;
@@ -20,6 +25,7 @@ import xyz.sgmi.clay.vo.BasicResultVO;
 import xyz.sgmi.clay.vo.MessageTemplateParam;
 import xyz.sgmi.clay.vo.MessageTemplateVo;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +35,7 @@ import java.util.stream.Collectors;
  * 插入模板测试类
  * @author MSG
  */
+@Slf4j
 @RestController
 @RequestMapping("/messageTemplate")
 @Api("发送消息")
@@ -37,11 +44,14 @@ public class MessageTemplateController {
     @Autowired
     private SendService sendService;
 
-    private static final List<String> flatFieldName = Arrays.asList("msgContent");
+    private static final List<String> FLAT_FIELD_NAME = Arrays.asList("msgContent");
 
 
     @Autowired
     private MessageTemplateService messageTemplateService;
+
+    @Value("${clay.business.upload.crowd.path}")
+    private String dataPath;
 
     /**
      * 如果Id存在，则修改
@@ -61,7 +71,7 @@ public class MessageTemplateController {
     @GetMapping("/list")
     @ApiOperation("/列表页")
     public BasicResultVO queryList(MessageTemplateParam messageTemplateParam) {
-        List<Map<String, Object>> result = ConvertMap.flatList(messageTemplateService.queryList(messageTemplateParam), flatFieldName);
+        List<Map<String, Object>> result = ConvertMap.flatList(messageTemplateService.queryList(messageTemplateParam), FLAT_FIELD_NAME);
 
         long count = messageTemplateService.count();
         MessageTemplateVo messageTemplateVo = MessageTemplateVo.builder().count(count).rows(result).build();
@@ -74,7 +84,7 @@ public class MessageTemplateController {
     @GetMapping("query/{id}")
     @ApiOperation("/根据Id查找")
     public BasicResultVO queryById(@PathVariable("id") Long id) {
-        Map<String, Object> result = ConvertMap.flatSingle(messageTemplateService.queryById(id), flatFieldName);
+        Map<String, Object> result = ConvertMap.flatSingle(messageTemplateService.queryById(id), FLAT_FIELD_NAME);
         return BasicResultVO.success(result);
     }
 
@@ -148,6 +158,22 @@ public class MessageTemplateController {
     @PostMapping("upload")
     @ApiOperation("/上传人群文件")
     public BasicResultVO upload(@RequestParam("file") MultipartFile file) {
-        return BasicResultVO.success();
+        String filePath = new StringBuilder(dataPath)
+                .append(IdUtil.fastSimpleUUID())
+                .append(file.getOriginalFilename())
+                .toString();
+        try {
+            File localFile = new File(filePath);
+            if (!localFile.exists()) {
+                localFile.mkdirs();
+            }
+            file.transferTo(localFile);
+
+
+        } catch (Exception e) {
+            log.error("MessageTemplateController#upload fail! e:{},params{}", Throwables.getStackTraceAsString(e), JSON.toJSONString(file));
+            return BasicResultVO.fail(RespStatusEnum.SERVICE_ERROR);
+        }
+        return BasicResultVO.success(MapUtil.of(new String[][]{{"value", filePath}}));
     }
 }

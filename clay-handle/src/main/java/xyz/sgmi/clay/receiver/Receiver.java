@@ -3,11 +3,13 @@ package xyz.sgmi.clay.receiver;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.stereotype.Component;
 import xyz.sgmi.clay.domain.AnchorInfo;
 import xyz.sgmi.clay.domain.LogParam;
 import xyz.sgmi.clay.enums.AnchorState;
@@ -27,16 +29,25 @@ import java.util.Optional;
  * 消费MQ的消息
  */
 @Slf4j
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Receiver {
     private static final String LOG_BIZ_TYPE = "Receiver#consumer";
 
-    @Autowired
-    private ApplicationContext context;
+    private final ApplicationContext context;
 
-    @Autowired
-    private TaskPendingHolder taskPendingHolder;
+    private final TaskPendingHolder taskPendingHolder;
 
-    @KafkaListener(topics = "#{'${clay.topic.name}'}")
+    private final LogUtils logUtils;
+
+    public Receiver(ApplicationContext context, TaskPendingHolder taskPendingHolder, LogUtils logUtils) {
+        this.context = context;
+        this.taskPendingHolder = taskPendingHolder;
+        this.logUtils = logUtils;
+    }
+
+
+    @KafkaListener(topics = "#{'${clay.business.topic.name}'}")
     public void consumer(ConsumerRecord<?, String> consumerRecord, @Header(KafkaHeaders.GROUP_ID) String topicGroupId) {
         Optional<String> kafkaMessage = Optional.ofNullable(consumerRecord.value());
         if (kafkaMessage.isPresent()) {
@@ -48,7 +59,7 @@ public class Receiver {
              */
             if (topicGroupId.equals(messageGroupId)) {
                 for (TaskInfo taskInfo : taskInfoLists) {
-                    LogUtils.print(LogParam.builder().bizType(LOG_BIZ_TYPE).object(taskInfo).build(), AnchorInfo.builder().ids(taskInfo.getReceiver()).businessId(taskInfo.getBusinessId()).state(AnchorState.RECEIVE.getCode()).build());
+                    logUtils.print(LogParam.builder().bizType(LOG_BIZ_TYPE).object(taskInfo).build(), AnchorInfo.builder().ids(taskInfo.getReceiver()).businessId(taskInfo.getBusinessId()).state(AnchorState.RECEIVE.getCode()).build());
                     Task task = context.getBean(Task.class).setTaskInfo(taskInfo);
                     taskPendingHolder.route(topicGroupId).execute(task);
                 }

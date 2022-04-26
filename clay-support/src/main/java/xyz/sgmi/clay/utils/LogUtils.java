@@ -3,7 +3,10 @@ package xyz.sgmi.clay.utils;
 import cn.monitor4all.logRecord.bean.LogDTO;
 import cn.monitor4all.logRecord.service.CustomLogListener;
 import com.alibaba.fastjson.JSON;
+import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import xyz.sgmi.clay.domain.AnchorInfo;
 import xyz.sgmi.clay.domain.LogParam;
@@ -18,6 +21,12 @@ import xyz.sgmi.clay.domain.LogParam;
 @Component
 public class LogUtils extends CustomLogListener {
 
+    @Autowired
+    private KafkaUtils kafkaUtils;
+
+    @Value("${austin.business.log.topic.name}")
+    private String topicName;
+
     /**
      * 方法切面的日志 @OperationLog 所产生
      */
@@ -29,7 +38,7 @@ public class LogUtils extends CustomLogListener {
     /**
      * 记录当前对象信息
      */
-    public static void print(LogParam logParam) {
+    public void print(LogParam logParam) {
         logParam.setTimestamp(System.currentTimeMillis());
         log.info(JSON.toJSONString(logParam));
     }
@@ -37,15 +46,23 @@ public class LogUtils extends CustomLogListener {
     /**
      * 记录打点信息
      */
-    public static void print(AnchorInfo anchorInfo) {
+    public void print(AnchorInfo anchorInfo) {
         anchorInfo.setTimestamp(System.currentTimeMillis());
-        log.info(JSON.toJSONString(anchorInfo));
+        String message = JSON.toJSONString(anchorInfo);
+        log.info(message);
+
+        try {
+            kafkaUtils.send(topicName, message);
+        } catch (Exception e) {
+            log.error("LogUtils#print kafka fail! e:{},params:{}", Throwables.getStackTraceAsString(e)
+                    , JSON.toJSONString(anchorInfo));
+        }
     }
 
     /**
      * 记录当前对象信息和打点信息
      */
-    public static void print(LogParam logParam, AnchorInfo anchorInfo) {
+    public void print(LogParam logParam, AnchorInfo anchorInfo) {
         print(anchorInfo);
         print(logParam);
     }

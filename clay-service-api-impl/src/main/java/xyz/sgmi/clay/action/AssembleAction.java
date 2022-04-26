@@ -79,9 +79,7 @@ public class AssembleAction implements BusinessProcess {
                     .templateType(messageTemplate.getTemplateType())
                     .msgType(messageTemplate.getMsgType())
                     .sendAccount(messageTemplate.getSendAccount())
-                    .contentModel(getContentModelValue(messageTemplate, messageParam))
-                    .deduplicationTime(messageTemplate.getDeduplicationTime())
-                    .isNightShield(messageTemplate.getIsNightShield()).build();
+                    .contentModel(getContentModelValue(messageTemplate, messageParam)).build();
 
             taskInfoList.add(taskInfo);
         }

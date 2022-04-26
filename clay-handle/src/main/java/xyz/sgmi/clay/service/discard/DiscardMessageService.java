@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.ctrip.framework.apollo.Config;
 import com.ctrip.framework.apollo.spring.annotation.ApolloConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.sgmi.clay.constant.ClayConstant;
 import xyz.sgmi.clay.domain.AnchorInfo;
@@ -21,6 +22,10 @@ import xyz.sgmi.clay.utils.LogUtils;
 public class DiscardMessageService {
     private static final String DISCARD_MESSAGE_KEY = "discard";
 
+    @Autowired
+    private LogUtils logUtils;
+
+
     @ApolloConfig("boss.clay")
     private Config config;
 
@@ -33,7 +38,7 @@ public class DiscardMessageService {
         JSONArray array = JSON.parseArray(config.getProperty(DISCARD_MESSAGE_KEY,
                 ClayConstant.APOLLO_DEFAULT_VALUE_JSON_ARRAY));
         if (array.contains(String.valueOf(taskInfo.getMessageTemplateId()))) {
-            LogUtils.print(AnchorInfo.builder().businessId(taskInfo.getBusinessId()).ids(taskInfo.getReceiver()).state(AnchorState.DISCARD.getCode()).build());
+            logUtils.print(AnchorInfo.builder().businessId(taskInfo.getBusinessId()).ids(taskInfo.getReceiver()).state(AnchorState.DISCARD.getCode()).build());
             return true;
         }
         return false;

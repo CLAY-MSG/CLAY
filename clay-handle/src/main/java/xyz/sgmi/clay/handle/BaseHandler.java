@@ -15,6 +15,9 @@ import javax.annotation.PostConstruct;
  */
 public abstract class BaseHandler implements Handler {
 
+    @Autowired
+    private LogUtils logUtils;
+
     /**
      * 标识渠道的Code
      * 子类初始化的时候指定
@@ -36,10 +39,10 @@ public abstract class BaseHandler implements Handler {
     @Override
     public void doHandler(TaskInfo taskInfo) {
         if (handler(taskInfo)) {
-            LogUtils.print(AnchorInfo.builder().state(AnchorState.SEND_SUCCESS.getCode()).businessId(taskInfo.getBusinessId()).ids(taskInfo.getReceiver()).build());
+            logUtils.print(AnchorInfo.builder().state(AnchorState.SEND_SUCCESS.getCode()).businessId(taskInfo.getBusinessId()).ids(taskInfo.getReceiver()).build());
             return;
         }
-        LogUtils.print(AnchorInfo.builder().state(AnchorState.SEND_FAIL.getCode()).businessId(taskInfo.getBusinessId()).ids(taskInfo.getReceiver()).build());
+        logUtils.print(AnchorInfo.builder().state(AnchorState.SEND_FAIL.getCode()).businessId(taskInfo.getBusinessId()).ids(taskInfo.getReceiver()).build());
     }
 
     /**
