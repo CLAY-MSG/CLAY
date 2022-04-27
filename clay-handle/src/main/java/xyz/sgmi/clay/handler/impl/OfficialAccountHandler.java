@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.handle.impl;
+package xyz.sgmi.clay.handler.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Throwables;
@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xyz.sgmi.clay.dto.model.OfficialAccountsContentModel;
 import xyz.sgmi.clay.enums.ChannelType;
-import xyz.sgmi.clay.handle.BaseHandler;
-import xyz.sgmi.clay.handle.Handler;
+import xyz.sgmi.clay.handler.BaseHandler;
+import xyz.sgmi.clay.handler.Handler;
 import xyz.sgmi.clay.pojo.TaskInfo;
 import xyz.sgmi.clay.script.OfficialAccountService;
 
@@ -23,6 +23,7 @@ import java.util.Set;
  * @Author: MSG
  * @Date:
  * @Version 1.0
+ * 微信服务号推送处理
  */
 @Component
 @Slf4j

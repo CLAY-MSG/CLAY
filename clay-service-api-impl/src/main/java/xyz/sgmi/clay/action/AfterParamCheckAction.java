@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ReUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import xyz.sgmi.clay.domain.SendTaskModel;
 import xyz.sgmi.clay.enums.ChannelType;
 import xyz.sgmi.clay.enums.IdType;
@@ -25,14 +26,15 @@ import java.util.stream.Collectors;
  * 后置参数检查
  */
 @Slf4j
-public class AfterParamCheckAction implements BusinessProcess {
+@Service
+public class AfterParamCheckAction implements BusinessProcess<SendTaskModel> {
 
 
-    public static final String PHONE_REGEX_EXP = "^((13[0-9])|(14[5,7,9])|(15[0-3,5-9])|(167)|(17[0-9])|(18[0-9])|(19[1,8,9]))\\d{8}$";
+    public static final String PHONE_REGEX_EXP = "^((13[0-9])|(14[5,7,9])|(15[0-3,5-9])|(166)|(17[0-9])|(18[0-9])|(19[1,8,9]))\\d{8}$";
 
     @Override
-    public void process(ProcessContext context) {
-        SendTaskModel sendTaskModel = (SendTaskModel) context.getProcessModel();
+    public void process(ProcessContext<SendTaskModel> context) {
+        SendTaskModel sendTaskModel = context.getProcessModel();
         List<TaskInfo> taskInfo = sendTaskModel.getTaskInfo();
 
         // 1. 过滤掉不合法的手机号
@@ -47,6 +49,7 @@ public class AfterParamCheckAction implements BusinessProcess {
 
     /**
      * 如果指定类型是手机号，且渠道是发送短信，检测输入手机号是否合法
+     *
      * @param taskInfo
      */
     private void filterIllegalPhoneNum(List<TaskInfo> taskInfo) {

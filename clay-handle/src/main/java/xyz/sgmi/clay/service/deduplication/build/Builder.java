@@ -1,6 +1,6 @@
 package xyz.sgmi.clay.service.deduplication.build;
 
-import xyz.sgmi.clay.domain.DeduplicationParam;
+import xyz.sgmi.clay.deduplication.DeduplicationParam;
 import xyz.sgmi.clay.pojo.TaskInfo;
 
 /**

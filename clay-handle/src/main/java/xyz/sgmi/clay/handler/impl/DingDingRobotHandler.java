@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.handle.impl;
+package xyz.sgmi.clay.handler.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
@@ -16,8 +16,8 @@ import xyz.sgmi.clay.domain.dingding.DingDingRobotResult;
 import xyz.sgmi.clay.dto.account.DingDingRobotAccount;
 import xyz.sgmi.clay.dto.model.DingDingContentModel;
 import xyz.sgmi.clay.enums.ChannelType;
-import xyz.sgmi.clay.handle.BaseHandler;
-import xyz.sgmi.clay.handle.Handler;
+import xyz.sgmi.clay.handler.BaseHandler;
+import xyz.sgmi.clay.handler.Handler;
 import xyz.sgmi.clay.pojo.TaskInfo;
 import xyz.sgmi.clay.utils.AccountUtils;
 
@@ -28,6 +28,7 @@ import java.util.ArrayList;
 
 /**
  * 钉钉消息自定义机器人 消息处理器
+ *
  * @Author: MSG
  * @Date:
  * @Version 1.0
@@ -110,5 +111,4 @@ public class DingDingRobotHandler extends BaseHandler implements Handler {
         return sign;
     }
 }
-
 

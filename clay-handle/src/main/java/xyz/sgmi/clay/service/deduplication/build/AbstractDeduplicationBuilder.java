@@ -2,7 +2,7 @@ package xyz.sgmi.clay.service.deduplication.build;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import xyz.sgmi.clay.domain.DeduplicationParam;
+import xyz.sgmi.clay.deduplication.DeduplicationParam;
 import xyz.sgmi.clay.pojo.TaskInfo;
 import xyz.sgmi.clay.service.deduplication.DeduplicationHolder;
 

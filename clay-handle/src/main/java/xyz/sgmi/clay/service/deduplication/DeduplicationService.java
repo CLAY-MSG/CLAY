@@ -1,6 +1,6 @@
 package xyz.sgmi.clay.service.deduplication;
 
-import xyz.sgmi.clay.domain.DeduplicationParam;
+import xyz.sgmi.clay.deduplication.DeduplicationParam;
 
 /**
  * @Author: MSG

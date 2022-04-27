@@ -1,16 +1,24 @@
-package xyz.sgmi.clay.handle.impl;
+package xyz.sgmi.clay.handler.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.request.OapiMessageCorpconversationAsyncsendV2Request;
+import com.dingtalk.api.response.OapiMessageCorpconversationAsyncsendV2Response;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import xyz.sgmi.clay.constant.ClayConstant;
+import xyz.sgmi.clay.constant.SendAccountConstant;
 import xyz.sgmi.clay.dto.account.DingDingWorkNoticeAccount;
+import xyz.sgmi.clay.dto.model.DingDingContentModel;
 import xyz.sgmi.clay.enums.ChannelType;
-import xyz.sgmi.clay.handle.BaseHandler;
+import xyz.sgmi.clay.handler.BaseHandler;
+import xyz.sgmi.clay.handler.Handler;
 import xyz.sgmi.clay.pojo.TaskInfo;
 import xyz.sgmi.clay.utils.AccountUtils;
 
@@ -18,6 +26,7 @@ import xyz.sgmi.clay.utils.AccountUtils;
  * 钉钉消息自定义机器人 消息处理器
  * <p>
  * https://open.dingtalk.com/document/group/custom-robot-access
+ *
  * @Author: MSG
  * @Date:
  * @Version 1.0
@@ -69,7 +78,7 @@ public class DingDingWorkNoticeHandler extends BaseHandler implements Handler {
         DingDingContentModel contentModel = (DingDingContentModel) taskInfo.getContentModel();
         try {
             // 接收者相关
-            if (AustinConstant.SEND_ALL.equals(CollUtil.getFirst(taskInfo.getReceiver()))) {
+            if (ClayConstant.SEND_ALL.equals(CollUtil.getFirst(taskInfo.getReceiver()))) {
                 req.setToAllUser(true);
             } else {
                 req.setUseridList(StringUtils.join(taskInfo.getReceiver(), StrUtil.C_COMMA));

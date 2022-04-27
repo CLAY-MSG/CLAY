@@ -2,7 +2,7 @@ package xyz.sgmi.clay.service.deduplication.build;
 
 import cn.hutool.core.date.DateUtil;
 import org.springframework.stereotype.Service;
-import xyz.sgmi.clay.domain.DeduplicationParam;
+import xyz.sgmi.clay.deduplication.DeduplicationParam;
 import xyz.sgmi.clay.enums.AnchorState;
 import xyz.sgmi.clay.enums.DeduplicationType;
 import xyz.sgmi.clay.pojo.TaskInfo;

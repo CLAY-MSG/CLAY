@@ -1,4 +1,5 @@
-package xyz.sgmi.clay.handle;
+package xyz.sgmi.clay.handler;
+
 
 import org.springframework.stereotype.Component;
 
@@ -6,7 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *  channel->Handler的映射关系
+ * channel->Handler的映射关系
+ *
  * @Author: MSG
  * @Date:
  * @Version 1.0

@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import xyz.sgmi.clay.constant.ClayConstant;
 import xyz.sgmi.clay.dao.MessageTemplateDao;
 import xyz.sgmi.clay.domain.MessageParam;
@@ -32,15 +33,15 @@ import java.util.*;
  * @description 拼装参数
  */
 @Slf4j
-public class AssembleAction implements BusinessProcess {
-
+@Service
+public class AssembleAction implements BusinessProcess<SendTaskModel> {
 
     @Autowired
     private MessageTemplateDao messageTemplateDao;
 
     @Override
-    public void process(ProcessContext context) {
-        SendTaskModel sendTaskModel = (SendTaskModel) context.getProcessModel();
+    public void process(ProcessContext<SendTaskModel> context) {
+        SendTaskModel sendTaskModel = context.getProcessModel();
         Long messageTemplateId = sendTaskModel.getMessageTemplateId();
 
         try {
@@ -70,6 +71,7 @@ public class AssembleAction implements BusinessProcess {
         List<TaskInfo> taskInfoList = new ArrayList<>();
 
         for (MessageParam messageParam : messageParamList) {
+
             TaskInfo taskInfo = TaskInfo.builder()
                     .messageTemplateId(messageTemplate.getId())
                     .businessId(TaskInfoUtils.generateBusinessId(messageTemplate.getId(), messageTemplate.getTemplateType()))
@@ -91,22 +93,21 @@ public class AssembleAction implements BusinessProcess {
 
 
     /**
-     * 获取 contentModel,替换占位符信息
+     * 获取 contentModel，替换模板msgContent中占位符信息
      */
     private static ContentModel getContentModelValue(MessageTemplate messageTemplate, MessageParam messageParam) {
 
         // 得到真正的ContentModel 类型
         Integer sendChannel = messageTemplate.getSendChannel();
-        Map<String, String> variables = messageParam.getVariables();
-
-        // 得到模板的 msgContent 和 入参
-        JSONObject jsonObject = JSON.parseObject(messageTemplate.getMsgContent());
         Class contentModelClass = ChannelType.getChanelModelClassByCode(sendChannel);
 
 
-        /**
-         *  反射获取得到不同的渠道对应的值
-         */
+        // 得到模板的 msgContent 和 入参
+        Map<String, String> variables = messageParam.getVariables();
+        JSONObject jsonObject = JSON.parseObject(messageTemplate.getMsgContent());
+
+
+        // 通过反射 组装出 contentModel
         Field[] fields = ReflectUtil.getFields(contentModelClass);
         ContentModel contentModel = (ContentModel) ReflectUtil.newInstance(contentModelClass);
         for (Field field : fields) {
@@ -117,6 +118,7 @@ public class AssembleAction implements BusinessProcess {
                 ReflectUtil.setFieldValue(contentModel, field, resultValue);
             }
         }
+
         // 如果 url 字段存在，则在url拼接对应的埋点参数
         String url = (String) ReflectUtil.getFieldValue(contentModel, "url");
         if (StrUtil.isNotBlank(url)) {
@@ -125,5 +127,4 @@ public class AssembleAction implements BusinessProcess {
         }
         return contentModel;
     }
-
 }

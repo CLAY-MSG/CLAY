@@ -5,7 +5,7 @@ import com.ctrip.framework.apollo.spring.annotation.ApolloConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.sgmi.clay.constant.ClayConstant;
-import xyz.sgmi.clay.domain.DeduplicationParam;
+import xyz.sgmi.clay.deduplication.DeduplicationParam;
 import xyz.sgmi.clay.enums.DeduplicationType;
 import xyz.sgmi.clay.pojo.TaskInfo;
 import xyz.sgmi.clay.service.deduplication.DeduplicationHolder;

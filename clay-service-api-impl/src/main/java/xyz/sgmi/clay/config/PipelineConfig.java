@@ -1,5 +1,6 @@
 package xyz.sgmi.clay.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import xyz.sgmi.clay.action.AfterParamCheckAction;
@@ -7,11 +8,10 @@ import xyz.sgmi.clay.action.AssembleAction;
 import xyz.sgmi.clay.action.PreParamCheckAction;
 import xyz.sgmi.clay.action.SendMqAction;
 import xyz.sgmi.clay.enums.BusinessCode;
-import xyz.sgmi.clay.pipeline.BusinessProcess;
 import xyz.sgmi.clay.pipeline.ProcessController;
 import xyz.sgmi.clay.pipeline.ProcessTemplate;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +24,14 @@ import java.util.Map;
 @Configuration
 public class PipelineConfig {
 
-    private static final Integer TEMPLATE_CONFIG_CAPACITY = 4;
+    @Autowired
+    private PreParamCheckAction preParamCheckAction;
+    @Autowired
+    private AssembleAction assembleAction;
+    @Autowired
+    private AfterParamCheckAction afterParamCheckAction;
+    @Autowired
+    private SendMqAction sendMqAction;
 
     /**
      * 普通发送执行流程
@@ -37,14 +44,8 @@ public class PipelineConfig {
     @Bean("commonSendTemplate")
     public ProcessTemplate commonSendTemplate() {
         ProcessTemplate processTemplate = new ProcessTemplate();
-        ArrayList<BusinessProcess> processList = new ArrayList<>();
-
-        processList.add(preParamAction());
-        processList.add(assembleAction());
-        processList.add(afterParamCheckAction());
-        processList.add(sendMqAction());
-
-        processTemplate.setProcessList(processList);
+        processTemplate.setProcessList(Arrays.asList(preParamCheckAction, assembleAction,
+                afterParamCheckAction, sendMqAction));
         return processTemplate;
     }
 
@@ -52,54 +53,16 @@ public class PipelineConfig {
      * pipeline流程控制器
      * 目前暂定只有 普通发送的流程
      * 后续扩展则加BusinessCode和ProcessTemplate
+     *
      * @return
      */
     @Bean
     public ProcessController processController() {
         ProcessController processController = new ProcessController();
-        Map<String, ProcessTemplate> templateConfig = new HashMap<>(TEMPLATE_CONFIG_CAPACITY);
+        Map<String, ProcessTemplate> templateConfig = new HashMap<>(4);
         templateConfig.put(BusinessCode.COMMON_SEND.getCode(), commonSendTemplate());
         processController.setTemplateConfig(templateConfig);
         return processController;
     }
 
-
-    /**
-     * 组装参数Action
-     * @return
-     */
-    @Bean
-    public AssembleAction assembleAction() {
-        return new AssembleAction();
-    }
-
-    /**
-     * 参数校验Action
-     * @return
-     */
-    @Bean
-    public PreParamCheckAction preParamAction() {
-        return new PreParamCheckAction();
-    }
-
-    /**
-     * 后置参数校验Action
-     *
-     * @return
-     */
-    @Bean
-    public AfterParamCheckAction afterParamCheckAction() {
-        return new AfterParamCheckAction();
-    }
-
-    /**
-     * 发送消息至MQ的Action
-     * @return
-     */
-    @Bean
-    public SendMqAction sendMqAction() {
-        return new SendMqAction();
-    }
-
 }
-

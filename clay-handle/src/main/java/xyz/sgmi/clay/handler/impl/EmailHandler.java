@@ -1,8 +1,10 @@
-package xyz.sgmi.clay.handle.impl;
+package xyz.sgmi.clay.handler.impl;
+
 
 import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
 import com.google.common.base.Throwables;
+import com.google.common.util.concurrent.RateLimiter;
 import com.sun.mail.util.MailSSLSocketFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +12,16 @@ import org.springframework.stereotype.Component;
 import xyz.sgmi.clay.constant.SendAccountConstant;
 import xyz.sgmi.clay.dto.model.EmailContentModel;
 import xyz.sgmi.clay.enums.ChannelType;
-import xyz.sgmi.clay.handle.BaseHandler;
-import xyz.sgmi.clay.handle.Handler;
+import xyz.sgmi.clay.enums.RateLimitStrategy;
+import xyz.sgmi.clay.flowcontrol.FlowControlParam;
+import xyz.sgmi.clay.handler.BaseHandler;
+import xyz.sgmi.clay.handler.Handler;
 import xyz.sgmi.clay.pojo.TaskInfo;
 import xyz.sgmi.clay.utils.AccountUtils;
 
 /**
+ * 邮件发送处理
+ *
  * @Author: MSG
  * @Date:
  * @Version 1.0
@@ -29,6 +35,13 @@ public class EmailHandler extends BaseHandler implements Handler {
 
     public EmailHandler() {
         channelCode = ChannelType.EMAIL.getCode();
+
+        // 按照请求限流，默认单机 3 qps （具体数值配置在apollo动态调整)
+        Double rateInitValue = Double.valueOf(3);
+        flowControlParam = FlowControlParam.builder().rateInitValue(rateInitValue)
+                .rateLimitStrategy(RateLimitStrategy.REQUEST_RATE_LIMIT)
+                .rateLimiter(RateLimiter.create(rateInitValue)).build();
+
     }
 
     @Override

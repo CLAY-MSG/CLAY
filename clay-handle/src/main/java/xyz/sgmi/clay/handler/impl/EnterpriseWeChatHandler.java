@@ -1,8 +1,7 @@
-package xyz.sgmi.clay.handle.impl;
+package xyz.sgmi.clay.handler.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSON;
-import com.ctrip.framework.apollo.core.utils.StringUtils;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxMpErrorMsgEnum;
@@ -12,22 +11,23 @@ import me.chanjar.weixin.cp.api.impl.WxCpServiceImpl;
 import me.chanjar.weixin.cp.bean.message.WxCpMessage;
 import me.chanjar.weixin.cp.bean.message.WxCpMessageSendResult;
 import me.chanjar.weixin.cp.config.impl.WxCpDefaultConfigImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xyz.sgmi.clay.constant.ClayConstant;
 import xyz.sgmi.clay.constant.SendAccountConstant;
 import xyz.sgmi.clay.dto.model.EnterpriseWeChatContentModel;
 import xyz.sgmi.clay.enums.ChannelType;
-import xyz.sgmi.clay.handle.BaseHandler;
-import xyz.sgmi.clay.handle.Handler;
+import xyz.sgmi.clay.handler.BaseHandler;
+import xyz.sgmi.clay.handler.Handler;
 import xyz.sgmi.clay.pojo.TaskInfo;
 import xyz.sgmi.clay.utils.AccountUtils;
 
 /**
- * 企业微信推送处理
  * @Author: MSG
  * @Date:
  * @Version 1.0
+ * 企业微信推送处理
  */
 @Component
 @Slf4j

@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.handle;
+package xyz.sgmi.clay.config;
 
 import com.dtp.common.em.QueueTypeEnum;
 import com.dtp.common.em.RejectedTypeEnum;
@@ -9,7 +9,7 @@ import xyz.sgmi.clay.constant.ThreadPoolConstant;
 import java.util.concurrent.TimeUnit;
 
 /**
- * handler模块 线程池的配置
+ * 线程池配置信息
  * @Author: MSG
  * @Date:
  * @Version 1.0

@@ -4,7 +4,6 @@ import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.sgmi.clay.domain.AnchorInfo;
@@ -15,6 +14,7 @@ import xyz.sgmi.clay.shield.ShieldService;
 import xyz.sgmi.clay.utils.LogUtils;
 import xyz.sgmi.clay.utils.RedisUtils;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -63,7 +63,7 @@ public class ShieldServiceImpl implements ShieldService {
      * @return
      */
     private boolean isNight() {
-        return Integer.valueOf(DateFormatUtils.format(new Date(), "HH")) < 8;
+        return LocalDateTime.now().getHour() < 8;
 
     }
 

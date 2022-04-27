@@ -8,17 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import xyz.sgmi.clay.handle.HandlerHolder;
+import xyz.sgmi.clay.handler.HandlerHolder;
 import xyz.sgmi.clay.pojo.TaskInfo;
 import xyz.sgmi.clay.service.deduplication.service.DeduplicationRuleService;
 import xyz.sgmi.clay.service.discard.DiscardMessageService;
 import xyz.sgmi.clay.shield.ShieldService;
 
 /**
- *  Task 执行器
+ * Task 执行器
  * 0.丢弃消息
- * 1.通用去重功能
- * 2.发送消息
+ * 2.屏蔽消息
+ * 2.通用去重功能
+ * 3.发送消息
  * @Author: MSG
  * @Date:
  * @Version 1.0

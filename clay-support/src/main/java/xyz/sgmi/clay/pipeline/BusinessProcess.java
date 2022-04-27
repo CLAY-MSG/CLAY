@@ -5,11 +5,11 @@ package xyz.sgmi.clay.pipeline;
  *
  * @author MSG
  */
-public interface BusinessProcess {
+public interface BusinessProcess<T extends ProcessModel> {
 
     /**
      * 真正处理逻辑
      * @param context
      */
-    void process(ProcessContext context);
+    void process(ProcessContext<T> context);
 }

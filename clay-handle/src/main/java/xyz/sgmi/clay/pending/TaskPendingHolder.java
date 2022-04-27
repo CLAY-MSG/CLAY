@@ -3,7 +3,7 @@ package xyz.sgmi.clay.pending;
 import com.dtp.core.thread.DtpExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import xyz.sgmi.clay.handle.HandlerThreadPoolConfig;
+import xyz.sgmi.clay.config.HandlerThreadPoolConfig;
 import xyz.sgmi.clay.utils.GroupIdMappingUtils;
 import xyz.sgmi.clay.utils.ThreadPoolUtils;
 

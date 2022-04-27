@@ -1,7 +1,9 @@
 package xyz.sgmi.clay.service.deduplication.service;
 
 import cn.hutool.core.util.StrUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xyz.sgmi.clay.deduplication.limit.LimitService;
 import xyz.sgmi.clay.enums.DeduplicationType;
 import xyz.sgmi.clay.pojo.TaskInfo;
 
@@ -14,8 +16,13 @@ import xyz.sgmi.clay.pojo.TaskInfo;
 @Service
 public class FrequencyDeduplicationService extends AbstractDeduplicationService {
 
-    public FrequencyDeduplicationService() {
+
+    @Autowired
+    public FrequencyDeduplicationService(@Qualifier("SimpleLimitService") LimitService limitService) {
+
+        this.limitService = limitService;
         deduplicationType = DeduplicationType.FREQUENCY.getCode();
+
     }
 
     private static final String PREFIX = "FRE";
@@ -34,7 +41,7 @@ public class FrequencyDeduplicationService extends AbstractDeduplicationService 
     @Override
     public String deduplicationSingleKey(TaskInfo taskInfo, String receiver) {
         return PREFIX + StrUtil.C_UNDERLINE
-                + receiver  + StrUtil.C_UNDERLINE
+                + receiver + StrUtil.C_UNDERLINE
                 + taskInfo.getMessageTemplateId() + StrUtil.C_UNDERLINE
                 + taskInfo.getSendChannel();
     }

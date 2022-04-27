@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.handle.impl;
+package xyz.sgmi.clay.handler.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xyz.sgmi.clay.dao.SmsRecordDao;
 import xyz.sgmi.clay.domain.SmsRecord;
+import xyz.sgmi.clay.domain.sms.SmsParam;
 import xyz.sgmi.clay.dto.model.SmsContentModel;
 import xyz.sgmi.clay.enums.ChannelType;
-import xyz.sgmi.clay.handle.BaseHandler;
-import xyz.sgmi.clay.handle.Handler;
-import xyz.sgmi.clay.domain.sms.SmsParam;
+import xyz.sgmi.clay.handler.BaseHandler;
+import xyz.sgmi.clay.handler.Handler;
 import xyz.sgmi.clay.pojo.TaskInfo;
 import xyz.sgmi.clay.script.SmsScript;
 
@@ -21,24 +21,28 @@ import java.util.List;
 
 /**
  * 短信发送处理
- * @author MSG
+ *
+ * @Author: MSG
+ * @Date:
+ * @Version 1.0
  */
 @Component
 @Slf4j
 public class SmsHandler extends BaseHandler implements Handler {
+
+    public SmsHandler() {
+        channelCode = ChannelType.SMS.getCode();
+    }
+
     @Autowired
     private SmsRecordDao smsRecordDao;
 
     @Autowired
     private SmsScript smsScript;
 
-    public SmsHandler() {
-        channelCode = ChannelType.SMS.getCode();
-    }
 
     @Override
     public boolean handler(TaskInfo taskInfo) {
-
         SmsParam smsParam = SmsParam.builder()
                 .phones(taskInfo.getReceiver())
                 .content(getSmsContent(taskInfo))
@@ -58,7 +62,6 @@ public class SmsHandler extends BaseHandler implements Handler {
         return false;
     }
 
-
     /**
      * 如果有输入链接，则把链接拼在文案后
      * <p>
@@ -73,5 +76,6 @@ public class SmsHandler extends BaseHandler implements Handler {
             return smsContentModel.getContent();
         }
     }
-}
 
+
+}

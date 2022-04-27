@@ -2,7 +2,10 @@ package xyz.sgmi.clay.service.deduplication.service;
 
 import cn.hutool.crypto.digest.DigestUtil;
 import com.alibaba.fastjson.JSON;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import xyz.sgmi.clay.deduplication.limit.LimitService;
 import xyz.sgmi.clay.enums.DeduplicationType;
 import xyz.sgmi.clay.pojo.TaskInfo;
 
@@ -15,7 +18,10 @@ import xyz.sgmi.clay.pojo.TaskInfo;
 @Service
 public class ContentDeduplicationService extends AbstractDeduplicationService {
 
-    public ContentDeduplicationService() {
+
+    @Autowired
+    public ContentDeduplicationService(@Qualifier("SlideWindowLimitService") LimitService limitService) {
+        this.limitService = limitService;
         deduplicationType = DeduplicationType.CONTENT.getCode();
     }
 

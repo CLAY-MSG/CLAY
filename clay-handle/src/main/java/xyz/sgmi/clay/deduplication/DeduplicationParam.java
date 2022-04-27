@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.domain;
+package xyz.sgmi.clay.deduplication;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.AllArgsConstructor;
