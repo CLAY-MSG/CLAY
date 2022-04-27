@@ -7,7 +7,7 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import xyz.sgmi.clay.dto.OfficialAccountsContentModel;
+import xyz.sgmi.clay.dto.model.OfficialAccountsContentModel;
 import xyz.sgmi.clay.enums.ChannelType;
 import xyz.sgmi.clay.handle.BaseHandler;
 import xyz.sgmi.clay.handle.Handler;

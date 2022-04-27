@@ -30,8 +30,29 @@ public class ClayConstant {
      */
     public final static Integer BUSINESS_ID_LENGTH = 16;
 
+    /**
+     * 消息发送给全部人的标识
+     * (企业微信 应用消息)
+     * (钉钉自定义机器人)
+     *
+     */
+    public static final String SEND_ALL = "@all";
 
 
+    /**
+     * 加密算法
+     */
+    public static final String HMAC_SHA256_ENCRYPTION_ALGO = "HmacSHA256";
 
+    /**
+     * 编码格式
+     */
+    public static final String CHARSET_NAME = "UTF-8";
+
+    /**
+     * HTTP 请求方法
+     */
+    public static final String REQUEST_METHOD_GET = "GET";
+    public static final String REQUEST_METHOD_POST = "POST";
 
 }

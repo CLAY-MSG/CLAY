@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.pojo;
+package xyz.sgmi.clay.domain.sms;
 
 import lombok.Builder;
 import lombok.Data;

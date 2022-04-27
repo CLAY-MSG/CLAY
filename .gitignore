@@ -9,3 +9,5 @@
 /clay-service-api-impl/target/
 /clay-support/target/
 /clay-web/target/
+clay-web/target/classes/application.yml
+target

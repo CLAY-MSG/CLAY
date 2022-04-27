@@ -3,7 +3,7 @@ package xyz.sgmi.clay.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
-import xyz.sgmi.clay.dto.*;
+import xyz.sgmi.clay.dto.model.*;
 
 /**
  * 发送渠道类型枚举
@@ -20,6 +20,8 @@ public enum ChannelType {
     OFFICIAL_ACCOUNT(50, "OfficialAccounts(服务号)", OfficialAccountsContentModel.class, "official_accounts"),
     MINI_PROGRAM(60, "miniProgram(小程序)", MiniProgramContentModel.class, "mini_program"),
     ENTERPRISE_WE_CHAT(70, "EnterpriseWeChat(企业微信)", EnterpriseWeChatContentModel.class, "enterprise_we_chat"),
+    DING_DING_ROBOT(80, "dingDingRobot(钉钉机器人)", DingDingContentModel.class, "ding_ding_robot"),
+    DING_DING_WORK_NOTICE(90, "dingDingWorkNotice(钉钉工作通知)", DingDingContentModel.class, "ding_ding_work_notice"),
     ;
 
     /**

@@ -7,7 +7,8 @@ import com.sun.mail.util.MailSSLSocketFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import xyz.sgmi.clay.dto.EmailContentModel;
+import xyz.sgmi.clay.constant.SendAccountConstant;
+import xyz.sgmi.clay.dto.model.EmailContentModel;
 import xyz.sgmi.clay.enums.ChannelType;
 import xyz.sgmi.clay.handle.BaseHandler;
 import xyz.sgmi.clay.handle.Handler;
@@ -23,12 +24,8 @@ import xyz.sgmi.clay.utils.AccountUtils;
 @Slf4j
 public class EmailHandler extends BaseHandler implements Handler {
 
-    private static final String EMAIL_ACCOUNT_KEY = "emailAccount";
-    private static final String PREFIX = "email_";
-
     @Autowired
     private AccountUtils accountUtils;
-
 
     public EmailHandler() {
         channelCode = ChannelType.EMAIL.getCode();
@@ -48,23 +45,22 @@ public class EmailHandler extends BaseHandler implements Handler {
         return true;
     }
 
-
-
-        /**
-         * 获取账号信息
-         * @return
-         */
-        private MailAccount getAccountConfig(Integer sendAccount) {
-            MailAccount account = accountUtils.getAccount(sendAccount, EMAIL_ACCOUNT_KEY, PREFIX, new MailAccount());
-            try {
-                MailSSLSocketFactory sf = new MailSSLSocketFactory();
-                sf.setTrustAllHosts(true);
-                account.setAuth(true).setStarttlsEnable(true).setSslEnable(true).setCustomProperty("mail.smtp.ssl.socketFactory", sf);
-                account.setTimeout(25000).setConnectionTimeout(25000);
-            } catch (Exception e) {
-                log.error("EmailHandler#getAccount fail!{}", Throwables.getStackTraceAsString(e));
-            }
-            return account;
+    /**
+     * 获取账号信息合配置
+     *
+     * @return
+     */
+    private MailAccount getAccountConfig(Integer sendAccount) {
+        MailAccount account = accountUtils.getAccount(sendAccount, SendAccountConstant.EMAIL_ACCOUNT_KEY, SendAccountConstant.EMAIL_ACCOUNT_PREFIX, new MailAccount());
+        try {
+            MailSSLSocketFactory sf = new MailSSLSocketFactory();
+            sf.setTrustAllHosts(true);
+            account.setAuth(true).setStarttlsEnable(true).setSslEnable(true).setCustomProperty("mail.smtp.ssl.socketFactory", sf);
+            account.setTimeout(25000).setConnectionTimeout(25000);
+        } catch (Exception e) {
+            log.error("EmailHandler#getAccount fail!{}", Throwables.getStackTraceAsString(e));
         }
+        return account;
+    }
 
 }

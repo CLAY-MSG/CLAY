@@ -1,7 +1,7 @@
 package xyz.sgmi.clay.script;
 
 import xyz.sgmi.clay.domain.SmsRecord;
-import xyz.sgmi.clay.pojo.SmsParam;
+import xyz.sgmi.clay.domain.sms.SmsParam;
 
 import java.util.List;
 

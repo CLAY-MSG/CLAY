@@ -10,7 +10,10 @@ import xyz.sgmi.clay.pojo.TaskInfo;
  */
 public interface ShieldService {
 
-
+    /**
+     * 屏蔽消息
+     * @param taskInfo
+     */
     void shield(TaskInfo taskInfo);
 }
 

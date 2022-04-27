@@ -86,6 +86,11 @@
             <artifactId>dynamic-tp-spring-boot-starter-apollo</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>alibaba-dingtalk-service-sdk</artifactId>
+        </dependency>
+
 
     </dependencies>
 

@@ -12,7 +12,7 @@ import xyz.sgmi.clay.dao.MessageTemplateDao;
 import xyz.sgmi.clay.domain.MessageParam;
 import xyz.sgmi.clay.domain.MessageTemplate;
 import xyz.sgmi.clay.domain.SendTaskModel;
-import xyz.sgmi.clay.dto.ContentModel;
+import xyz.sgmi.clay.dto.model.ContentModel;
 import xyz.sgmi.clay.enums.ChannelType;
 import xyz.sgmi.clay.enums.RespStatusEnum;
 import xyz.sgmi.clay.pipeline.BusinessProcess;

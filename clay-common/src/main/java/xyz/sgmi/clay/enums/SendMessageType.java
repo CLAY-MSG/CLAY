@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
- * 微信下发消息类型枚举
+ * 微信应用消息/钉钉/服务号均有多种的消息类型下发
  * @Author: MSG
  * @Date:
  * @Version 1.0
@@ -13,9 +13,9 @@ import lombok.ToString;
 @Getter
 @ToString
 @AllArgsConstructor
-public enum WechatMessageType {
+public enum SendMessageType {
 
-    TEST(10, "文本"),
+    TEXT(10, "文本"),
     VOICE(20, "语音"),
     VIDEO(30, "视频"),
     NEWS(40, "图文"),

@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.dto;
+package xyz.sgmi.clay.dto.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

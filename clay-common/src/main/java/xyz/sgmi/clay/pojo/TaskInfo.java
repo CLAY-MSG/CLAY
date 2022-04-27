@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import xyz.sgmi.clay.dto.ContentModel;
+import xyz.sgmi.clay.dto.model.ContentModel;
 
 import java.util.Set;
 

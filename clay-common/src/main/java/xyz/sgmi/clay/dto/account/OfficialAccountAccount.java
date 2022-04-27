@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.domain;
+package xyz.sgmi.clay.dto.account;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +20,7 @@ import java.util.Map;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OfficialAccountParam {
+public class OfficialAccountAccount {
 
     /**
      * 服务号关注者的openId

@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.dto;
+package xyz.sgmi.clay.dto.account;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * 钉钉自定义机器人 账号信息
  * @Author: MSG
  * @Date:
  * @Version 1.0
@@ -14,17 +15,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmailContentModel extends ContentModel {
+public class DingDingRobotAccount {
 
     /**
-     * 标题
+     * 密钥
      */
-    private String title;
+    private String secret;
 
     /**
-     * 内容(可写入HTML)
+     * 自定义群机器人中的 webhook
      */
-    private String content;
+    private String webhook;
 
 
 }

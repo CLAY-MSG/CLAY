@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.dto;
+package xyz.sgmi.clay.dto.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +20,7 @@ public class EnterpriseWeChatContentModel extends ContentModel {
     /**
      * 下发企业微信消息的类型
      */
-    private String messageType;
+    private String sendType;
 
     /**
      * 文本消息 - 文案

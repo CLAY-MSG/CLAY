@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.pojo;
+package xyz.sgmi.clay.dto.account;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TencentSmsParam {
+public class TencentSmsAccount {
 
     /**
      * api相关
