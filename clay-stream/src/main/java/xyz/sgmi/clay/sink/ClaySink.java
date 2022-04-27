@@ -56,7 +56,8 @@ public class ClaySink implements SinkFunction<AnchorInfo> {
                  */
                 redisFutures.add(redisAsyncCommands.hincrby(String.valueOf(info.getBusinessId()).getBytes(),
                         String.valueOf(info.getState()).getBytes(), info.getIds().size()));
-                redisFutures.add(redisAsyncCommands.expire(String.valueOf(info.getBusinessId()).getBytes(), DateUtil.offsetDay(new Date(), 30).getTime()));
+                redisFutures.add(redisAsyncCommands.expire(String.valueOf(info.getBusinessId()).getBytes(),
+                        ((DateUtil.offsetDay(new Date(), 30).getTime()) / 1000) - DateUtil.currentSeconds()));
                 return redisFutures;
             });
 

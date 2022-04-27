@@ -1,5 +1,6 @@
-package xyz.sgmi.clay.script;
+package xyz.sgmi.clay.script.impl;
 
+import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
@@ -14,11 +15,11 @@ import com.tencentcloudapi.sms.v20210111.models.SendStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xyz.sgmi.clay.constant.ClayConstant;
 import xyz.sgmi.clay.domain.SmsRecord;
 import xyz.sgmi.clay.enums.SmsStatus;
 import xyz.sgmi.clay.pojo.SmsParam;
 import xyz.sgmi.clay.pojo.TencentSmsParam;
+import xyz.sgmi.clay.script.SmsScript;
 import xyz.sgmi.clay.utils.AccountUtils;
 
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class TencentSmsScript implements SmsScript {
                     .reverse().substring(0, PHONE_NUM)).reverse().toString();
 
             SmsRecord smsRecord = SmsRecord.builder()
-                    .sendDate(Integer.valueOf(DateUtil.format(new Date(), ClayConstant.YYYY_MM_DD)))
+                    .sendDate(Integer.valueOf(DateUtil.format(new Date(), DatePattern.PURE_DATE_PATTERN)))
                     .messageTemplateId(smsParam.getMessageTemplateId())
                     .phone(Long.valueOf(phone))
                     .supplierId(tencentSmsParam.getSupplierId())

@@ -7,6 +7,9 @@ ok:
     read-timeout: 30
     write-timeout: 30
 
+server:
+  shutdown: graceful
+
 clay:
   business:
     topic:
@@ -98,7 +101,7 @@ app:
 apollo:
   bootstrap:
     enabled: true
-    namespaces: boss.clay
+    namespaces: boss.clay,dynamic-tp-apollo-dtp.yml
 
 # xxl job TODO
 xxl:

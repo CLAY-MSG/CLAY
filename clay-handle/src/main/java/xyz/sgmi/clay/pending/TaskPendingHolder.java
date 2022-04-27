@@ -1,8 +1,11 @@
 package xyz.sgmi.clay.pending;
 
+import com.dtp.core.thread.DtpExecutor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import xyz.sgmi.clay.config.ThreadPoolConfig;
+import xyz.sgmi.clay.handle.HandlerThreadPoolConfig;
 import xyz.sgmi.clay.utils.GroupIdMappingUtils;
+import xyz.sgmi.clay.utils.ThreadPoolUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -18,13 +21,9 @@ import java.util.concurrent.ExecutorService;
  */
 @Component
 public class TaskPendingHolder {
+    @Autowired
+    private ThreadPoolUtils threadPoolUtils;
 
-    /**
-     * 线程池的参数
-     */
-    private Integer coreSize = 3;
-    private Integer maxSize = 3;
-    private Integer queueSize = 100;
     private Map<String, ExecutorService> taskPendingHolder = new HashMap<>(32);
 
     /**
@@ -34,19 +33,25 @@ public class TaskPendingHolder {
 
     /**
      * 给每个渠道，每种消息类型初始化一个线程池
-     *
-     * TODO 不同的 groupId 分配不同的线程和队列大小
-     *
      */
     @PostConstruct
     public void init() {
+        /**
+         * example ThreadPoolName:austin.im.notice
+         *
+         * 可以通过apollo配置：dynamic-tp-apollo-dtp.yml  动态修改线程池的信息
+         */
         for (String groupId : groupIds) {
-            taskPendingHolder.put(groupId, ThreadPoolConfig.getThreadPool(coreSize, maxSize, queueSize));
+            DtpExecutor executor = HandlerThreadPoolConfig.getExecutor(groupId);
+            threadPoolUtils.register(executor);
+
+            taskPendingHolder.put(groupId, executor);
         }
     }
 
     /**
      * 得到对应的线程池
+     *
      * @param groupId
      * @return
      */

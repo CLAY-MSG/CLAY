@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.handle;
+package xyz.sgmi.clay.handle.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Throwables;
@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xyz.sgmi.clay.dto.OfficialAccountsContentModel;
 import xyz.sgmi.clay.enums.ChannelType;
+import xyz.sgmi.clay.handle.BaseHandler;
+import xyz.sgmi.clay.handle.Handler;
 import xyz.sgmi.clay.pojo.TaskInfo;
-import xyz.sgmi.clay.script.OfficialAccountScript;
+import xyz.sgmi.clay.script.OfficialAccountService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +29,7 @@ import java.util.Set;
 public class OfficialAccountHandler extends BaseHandler implements Handler {
 
     @Autowired
-    private OfficialAccountScript officialAccountScript;
+    private OfficialAccountService officialAccountService;
 
 
     public OfficialAccountHandler() {
@@ -40,7 +42,7 @@ public class OfficialAccountHandler extends BaseHandler implements Handler {
         List<WxMpTemplateMessage> mpTemplateMessages = buildTemplateMsg(taskInfo);
         // 微信模板消息需要记录响应结果
         try {
-            List<String> messageIds = officialAccountScript.send(mpTemplateMessages);
+            List<String> messageIds = officialAccountService.send(mpTemplateMessages);
             log.info("OfficialAccountHandler#handler successfully messageIds:{}", messageIds);
             return true;
         } catch (Exception e) {
@@ -91,5 +93,4 @@ public class OfficialAccountHandler extends BaseHandler implements Handler {
         return String.valueOf(messageTemplateId);
     }
 }
-
 

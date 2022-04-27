@@ -2,26 +2,25 @@ package xyz.sgmi.clay.pending;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.thread.ExecutorBuilder;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import xyz.sgmi.clay.config.CronAsyncThreadPoolConfig;
 import xyz.sgmi.clay.constants.PendingConstant;
 import xyz.sgmi.clay.domain.BatchSendRequest;
 import xyz.sgmi.clay.domain.CrowdInfoVo;
 import xyz.sgmi.clay.domain.MessageParam;
 import xyz.sgmi.clay.enums.BusinessCode;
 import xyz.sgmi.clay.service.SendService;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 批量处理任务信息
@@ -42,12 +41,7 @@ public class CrowdBatchTaskPending extends AbstractLazyPending<CrowdInfoVo> {
         pendingParam.setNumThreshold(PendingConstant.NUM_THRESHOLD)
                 .setQueue(new LinkedBlockingQueue(PendingConstant.QUEUE_SIZE))
                 .setTimeThreshold(PendingConstant.TIME_THRESHOLD)
-                .setExecutorService(ExecutorBuilder.create()
-                        .setCorePoolSize(PendingConstant.CORE_POOL_SIZE)
-                        .setMaxPoolSize(PendingConstant.MAX_POOL_SIZE)
-                        .setWorkQueue(PendingConstant.BLOCKING_QUEUE)
-                        .setHandler(new ThreadPoolExecutor.CallerRunsPolicy())
-                        .build());
+                .setExecutorService(CronAsyncThreadPoolConfig.getConsumePendingThreadPool());
         this.pendingParam = pendingParam;
     }
 
@@ -83,4 +77,5 @@ public class CrowdBatchTaskPending extends AbstractLazyPending<CrowdInfoVo> {
                 .build();
         sendService.batchSend(batchSendRequest);
     }
+
 }

@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.handle;
+package xyz.sgmi.clay.handle.impl;
 
 import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xyz.sgmi.clay.dto.EmailContentModel;
 import xyz.sgmi.clay.enums.ChannelType;
+import xyz.sgmi.clay.handle.BaseHandler;
+import xyz.sgmi.clay.handle.Handler;
 import xyz.sgmi.clay.pojo.TaskInfo;
 import xyz.sgmi.clay.utils.AccountUtils;
 
@@ -19,7 +21,7 @@ import xyz.sgmi.clay.utils.AccountUtils;
  */
 @Component
 @Slf4j
-public class EmailHandler extends BaseHandler implements Handler{
+public class EmailHandler extends BaseHandler implements Handler {
 
     private static final String EMAIL_ACCOUNT_KEY = "emailAccount";
     private static final String PREFIX = "email_";

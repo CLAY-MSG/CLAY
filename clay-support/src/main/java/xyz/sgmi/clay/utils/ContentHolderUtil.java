@@ -38,8 +38,9 @@ public class ContentHolderUtil {
     }
 
     public static String replacePlaceHolder(final String template, final Map<String, String> paramMap) {
-        return PROPERTY_PLACEHOLDER_HELPER.replacePlaceholders(template,
+        String replacedPushContent = PROPERTY_PLACEHOLDER_HELPER.replacePlaceholders(template,
                 new CustomPlaceholderResolver(template, paramMap));
+        return replacedPushContent;
     }
 
     private static class CustomPlaceholderResolver implements PropertyPlaceholderHelper.PlaceholderResolver {
@@ -63,5 +64,4 @@ public class ContentHolderUtil {
             return value;
         }
     }
-
 }

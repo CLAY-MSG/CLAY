@@ -12,6 +12,7 @@ import xyz.sgmi.clay.handle.HandlerHolder;
 import xyz.sgmi.clay.pojo.TaskInfo;
 import xyz.sgmi.clay.service.deduplication.service.DeduplicationRuleService;
 import xyz.sgmi.clay.service.discard.DiscardMessageService;
+import xyz.sgmi.clay.shield.ShieldService;
 
 /**
  *  Task 执行器
@@ -38,6 +39,10 @@ public class Task implements Runnable {
     @Autowired
     private DiscardMessageService discardMessageService;
 
+    @Autowired
+    private ShieldService shieldService;
+
+
     private TaskInfo taskInfo;
 
     @Override
@@ -49,9 +54,13 @@ public class Task implements Runnable {
             return;
         }
 
-        // 1.平台通用去重
-        deduplicationRuleService.duplication(taskInfo);
+        // 1. 屏蔽消息
+        shieldService.shield(taskInfo);
 
+        // 2.平台通用去重
+        if (CollUtil.isNotEmpty(taskInfo.getReceiver())) {
+            deduplicationRuleService.duplication(taskInfo);
+        }
 
 
         // 2. 真正发送消息

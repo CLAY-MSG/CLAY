@@ -1,4 +1,4 @@
-package xyz.sgmi.clay.script;
+package xyz.sgmi.clay.script.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -7,6 +7,7 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import xyz.sgmi.clay.script.OfficialAccountService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class WxMpTemplateScript implements OfficialAccountScript {
+public class OfficialAccountServiceImpl implements OfficialAccountService {
 
     @Value("${wx.mp.account.appid}")
     private String appId;

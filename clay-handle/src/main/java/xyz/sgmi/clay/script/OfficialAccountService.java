@@ -10,7 +10,7 @@ import java.util.List;
  * @Version 1.0
  */
 
-public interface OfficialAccountScript {
+public interface OfficialAccountService {
 
     /**
      * 发送模板消息
